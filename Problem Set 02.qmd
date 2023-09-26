@@ -1,0 +1,465 @@
+---
+title: "Problem Set 2"
+format: html
+editor: visual
+---
+
+**Problem 1**
+
+\(a\)
+
+Version 1 Loop
+
+```{r}
+play_dice_1 <- function(x){
+  result <- rep(NA, x)
+  money <- rep(NA, x)
+  for (i in 1:x){
+    result[i] <- sample(1:6, 1)
+      if (result[i] == 1 || result[i] == 3 || result[i] == 5){
+        money[i] <- -2
+      }
+      if (result[i] == 2 || result[i] == 4 || result[i] == 6){
+        money[i] <- -2 + result[i]
+      }
+  }
+  return(sum(money))
+}
+```
+
+Version 2 Vectorized function
+
+```{r}
+play_dice_2 <- function(x){
+  result <- sample(1:6, x, replace = TRUE)
+  money <- numeric(x)
+  money[result %in% c(2, 4, 6)] <- -2 + result[result %in% c(2, 4, 6)]
+  money[result %in% c(1, 3, 5)] <- -2
+  return(sum(money))
+}
+```
+
+Version 3 Table
+
+```{r}
+play_dice_3 <- function(x) {
+  results <- sample(1:6, x, replace = TRUE)
+  roll_table <- table(results)
+  total_winnings <- 0
+  for (roll in names(roll_table)) {
+    frequency <- roll_table[roll]
+    if (roll %in% c("2", "4", "6")) {
+      total_winnings <- total_winnings + (as.numeric(roll) * frequency)
+    } else {
+      total_winnings <- total_winnings
+    }
+  }
+  total_cost <- 2 * x
+  net_winnings <- total_winnings - total_cost
+  return(as.numeric(net_winnings))
+}
+```
+
+Version 4 apply
+
+```{r}
+play_dice_4 <- function(x){
+  results <- sample(1:6, x, replace = TRUE)
+  mechanism <- function(results){
+    output <- numeric(length(x))
+    for (i in 1:length(results)) {
+    if (results[i] %% 2 == 1) {
+      output[i] <- -2
+    } else {
+      output[i] <- -2 + results[i]
+    }
+    }
+  return(output)
+  }
+  return(sum(unlist(lapply(results, mechanism))))
+}
+```
+
+b\.
+
+```{r}
+play_dice_1(3)
+play_dice_1(3000)
+
+play_dice_2(3)
+play_dice_2(3000)
+
+play_dice_3(3)
+play_dice_3(3000)
+
+play_dice_4(3)
+play_dice_4(3000)
+```
+
+They all can work.
+
+c\.
+
+```{r}
+play_dice_function_list <- list(play_dice_1, play_dice_2, play_dice_3, play_dice_4)
+for (i in 1:4){
+  set.seed(123)
+  print(play_dice_function_list[[i]](3))
+  print(play_dice_function_list[[i]](3000))
+}
+```
+
+To control by set.seed. They can give the same results.
+
+d\.
+
+```{r}
+library(microbenchmark)
+microbenchmark(play_dice_1(10), play_dice_2(10), play_dice_3(10), play_dice_4(10))
+microbenchmark(play_dice_1(1000), play_dice_2(1000), play_dice_3(1000), play_dice_4(1000))
+```
+
+It seems that no matter how many times of games, play_dice_2 is the most quick, maybe because of it use built-in R vectorized function.
+
+e\. It is a fair game. We can calculate the expectation of earning after n independent trails.
+
+E\[nX\] = nE\[X\] = n(1/6)\*\[(-2+2)+(-2+4)+(-2+6)+(-2)+(-2)+(-2)\] = 0
+
+```{r}
+monte_carlo_simulation <- function(num_simulations, num_rolls_per_simulation) {
+  results <- numeric(num_simulations)
+  
+  for (i in 1:num_simulations) {
+    result <- play_dice_2(num_rolls_per_simulation)
+    results[i] <- result
+  }
+  
+  average_result <- mean(results)
+  return(average_result)
+}
+monte_carlo_simulation(100000, 10)
+```
+
+The monte carlo simulation indicates that the average_result is very close to 0, so it is a fair game.
+
+**Problem 2**
+
+a\.
+
+Import the dataset and rename the columns
+
+```{r}
+car <- read.csv("E:/study/Stat 506/cars.csv")
+colnames(car) <- c("Height", "Length", "Width", "Driveline", "Engine Type", "Hybrid", "Forward Gears", "Transmission", "City_mpg", "Fuel Type", "Highway_mpg", "Classification", "ID", "Make", "Model Year", "Year", "Horsepower", "Torque")
+```
+
+b\.
+
+Restrict the data to cars whose Fuel Type is \"Gasoline\".
+
+```{r}
+car_restricted <- car[car$`Fuel Type` == "Gasoline", ]
+```
+
+c\.
+
+Fit the multiple linear model.
+
+```{r}
+fit <- lm(Highway_mpg ~ Horsepower + Torque + Length + Height + Width + as.factor(Year), data = car_restricted)
+summary(fit)
+```
+
+In this model, the coefficient for horsepower is 0.0163556. This coefficient tells us that when controlling for all other variables (torque, vehicle size, year, etc.), each additional unit of horsepower increases highway miles per gallon (Highway_mpg) by an average of 0.0163556. Therefore, horsepower has a positive correlation with highway mpg, and increasing horsepower results in better fuel efficiency.
+
+The p-value of the coefficient of horsepower is very small (7.96e-13), much smaller than the usual significance level. This means we can say that the effect of horsepower on highway mpg is significant, when controlling for other variables.
+
+d\.
+
+Add the interaction term.
+
+```{r}
+fit_new <- lm(Highway_mpg ~ Horsepower + Torque + Length + Height + Width + as.factor(Year) + Horsepower:Torque, data = car_restricted)
+summary(fit_new)
+```
+
+plot the interaction plot
+
+```{r}
+library(interactions)
+torque_mean <- mean(car_restricted$Torque)
+torque_sd <- sd(car_restricted$Torque)
+l1 <- round(torque_mean + torque_sd)
+l2 <- round(torque_mean)
+l3 <- round(torque_mean - torque_sd)
+legend_labels <- c(l1, l2, l3)
+interact_plot(fit_new, pred = Horsepower, modx = Torque, data = car_restricted, at = list(Year = 2010))
+```
+
+e\. Calculate the $$\hat\beta$$ manually.
+
+```{r}
+X <- model.matrix(Highway_mpg ~ Horsepower * Torque + Length + Height + Width + as.factor(Year), data = car_restricted)
+
+Y <- car_restricted$Highway_mpg
+
+beta_hat <- solve(t(X) %*% X) %*% t(X) %*% Y
+beta_hat
+```
+
+The result of matrix method is the same as the lm function in d.
+
+**Problem 3**
+
+These are pure codes
+
+```         
+import delimited "E:\study\Stat 506\cars.csv", clear delimiter(",") // import dataset into Stata
+
+* Rename columns
+rename dimensionsheight height
+rename dimensionslength length
+rename dimensionswidth width
+rename engineinformationdriveline driveline
+rename engineinformationenginetype enginetype
+rename engineinformationhybrid hybrid
+rename engineinformationnumberofforward forward
+rename engineinformationtransmission transmission
+rename fuelinformationcitympg citympg
+rename fuelinformationfueltype fueltype
+rename fuelinformationhighwaympg highwaympg
+rename identificationclassification classification
+rename identificationid id
+rename identificationmake make
+rename identificationmodelyear modelyear
+rename identificationyear year
+rename engineinformationenginestatistic horsepower
+rename v18 torque
+
+* restrict the dataset
+keep if fueltype == "Gasoline"
+
+* regression
+regress highwaympg horsepower torque length height width i.year
+
+* add the interaction
+regress highwaympg c.horsepower##c.torque length height width i.year
+
+* plot the interaction plot
+summarize torque
+return list
+global tora = round(r(mean) + r(sd), 0.1)
+global tor = round(r(mean), 0.1)
+global torb = round(r(mean) - r(sd), 0.1)
+margins, at(horsepower=(100(100)500) torque=($tora $tor $torb))
+marginsplot
+```
+
+These are my codes combined with outputs
+
+```         
+. do "C:\Users\mengy\AppData\Local\Temp\STD22c8_000000.tmp"
+
+. import delimited "E:\study\Stat 506\cars.csv", clear delimiter(",") // import 
+> dataset into Stata
+(encoding automatically selected: ISO-8859-1)
+(18 vars, 5,076 obs)
+
+. 
+. * Rename columns
+. rename dimensionsheight height
+
+. rename dimensionslength length
+
+. rename dimensionswidth width
+
+. rename engineinformationdriveline driveline
+
+. rename engineinformationenginetype enginetype
+
+. rename engineinformationhybrid hybrid
+
+. rename engineinformationnumberofforward forward
+
+. rename engineinformationtransmission transmission
+
+. rename fuelinformationcitympg citympg
+
+. rename fuelinformationfueltype fueltype
+
+. rename fuelinformationhighwaympg highwaympg
+
+. rename identificationclassification classification
+
+. rename identificationid id
+
+. rename identificationmake make
+
+. rename identificationmodelyear modelyear
+
+. rename identificationyear year
+
+. rename engineinformationenginestatistic horsepower
+
+. rename v18 torque
+
+. 
+. * restrict the dataset
+. keep if fueltype == "Gasoline"
+(485 observations deleted)
+
+. 
+. * regression
+. regress highwaympg horsepower torque length height width i.year
+
+      Source |       SS           df       MS      Number of obs   =     4,591
+-------------+----------------------------------   F(8, 4582)      =    413.35
+       Model |  70043.6695         8  8755.45869   Prob > F        =    0.0000
+    Residual |   97055.298     4,582  21.1818634   R-squared       =    0.4192
+-------------+----------------------------------   Adj R-squared   =    0.4182
+       Total |  167098.968     4,590  36.4050038   Root MSE        =    4.6024
+
+------------------------------------------------------------------------------
+  highwaympg | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  horsepower |   .0163556   .0022772     7.18   0.000     .0118913      .02082
+      torque |  -.0507425    .002203   -23.03   0.000    -.0550614   -.0464236
+      length |    .001729   .0008836     1.96   0.050    -3.36e-06    .0034613
+      height |   .0099079   .0011267     8.79   0.000      .007699    .0121168
+       width |  -.0003343   .0009045    -0.37   0.712    -.0021075    .0014388
+             |
+        year |
+       2010  |  -.4539681   .6768246    -0.67   0.502     -1.78087    .8729342
+       2011  |   .1711016   .6757043     0.25   0.800    -1.153604    1.495808
+       2012  |   1.302928   .6810076     1.91   0.056    -.0321751    2.638031
+             |
+       _cons |   32.29266   .7225982    44.69   0.000     30.87602     33.7093
+------------------------------------------------------------------------------
+
+. 
+. * add the interaction
+. regress highwaympg c.horsepower##c.torque length height width i.year
+
+      Source |       SS           df       MS      Number of obs   =     4,591
+-------------+----------------------------------   F(9, 4581)      =    480.07
+       Model |  81105.8715         9  9011.76351   Prob > F        =    0.0000
+    Residual |   85993.096     4,581  18.7716865   R-squared       =    0.4854
+-------------+----------------------------------   Adj R-squared   =    0.4844
+       Total |  167098.968     4,590  36.4050038   Root MSE        =    4.3326
+
+-------------------------------------------------------------------------------
+   highwaympg | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+   horsepower |  -.0166633   .0025388    -6.56   0.000    -.0216406    -.011686
+       torque |  -.0860593   .0025333   -33.97   0.000    -.0910257   -.0810928
+              |
+ c.horsepower#|
+     c.torque |   .0001124   4.63e-06    24.28   0.000     .0001033    .0001214
+              |
+       length |   .0017767   .0008318     2.14   0.033     .0001459    .0034075
+       height |   .0065604   .0010696     6.13   0.000     .0044634    .0086573
+        width |  -.0011694   .0008521    -1.37   0.170      -.00284    .0005011
+              |
+         year |
+        2010  |  -.5627858   .6371716    -0.88   0.377    -1.811949    .6863777
+        2011  |   .0725356   .6361142     0.11   0.909    -1.174555    1.319626
+        2012  |   1.197033   .6411085     1.87   0.062    -.0598488    2.453915
+              |
+        _cons |   42.18795   .7930274    53.20   0.000     40.63323    43.74266
+-------------------------------------------------------------------------------
+
+. 
+. * plot the interaction plot
+. summarize torque
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      torque |      4,591    267.2196    101.3269         98        774
+
+. return list
+
+scalars:
+                  r(N) =  4591
+              r(sum_w) =  4591
+               r(mean) =  267.2195600087127
+                r(Var) =  10267.13261078676
+                 r(sd) =  101.3268602631442
+                r(min) =  98
+                r(max) =  774
+                r(sum) =  1226805
+
+. global tora = round(r(mean) + r(sd), 0.1)
+
+. global tor = round(r(mean), 0.1)
+
+. global torb = round(r(mean) - r(sd), 0.1)
+
+. margins, at(horsepower=(100(100)500) torque=($tora $tor $torb))
+
+Predictive margins                                       Number of obs = 4,591
+Model VCE: OLS
+
+Expression: Linear prediction, predict()
+1._at:  horsepower =   100
+        torque     = 368.5
+2._at:  horsepower =   100
+        torque     = 267.2
+3._at:  horsepower =   100
+        torque     = 165.9
+4._at:  horsepower =   200
+        torque     = 368.5
+5._at:  horsepower =   200
+        torque     = 267.2
+6._at:  horsepower =   200
+        torque     = 165.9
+7._at:  horsepower =   300
+        torque     = 368.5
+8._at:  horsepower =   300
+        torque     = 267.2
+9._at:  horsepower =   300
+        torque     = 165.9
+10._at: horsepower =   400
+        torque     = 368.5
+11._at: horsepower =   400
+        torque     = 267.2
+12._at: horsepower =   400
+        torque     = 165.9
+13._at: horsepower =   500
+        torque     = 368.5
+14._at: horsepower =   500
+        torque     = 267.2
+15._at: horsepower =   500
+        torque     = 165.9
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   14.10052   .5793414    24.34   0.000     12.96473    15.23631
+          2  |   21.68015   .3653114    59.35   0.000     20.96396    22.39634
+          3  |   29.25978    .199333   146.79   0.000     28.86899    29.65057
+          4  |   16.57453   .3670628    45.15   0.000     15.85491    17.29415
+          5  |   23.01599   .1619147   142.15   0.000     22.69856    23.33342
+          6  |   29.45745   .1082287   272.18   0.000     29.24527    29.66963
+          7  |   19.04854   .1677196   113.57   0.000     18.71973    19.37735
+          8  |   24.35183   .1058085   230.15   0.000     24.14439    24.55926
+          9  |   29.65511   .2874378   103.17   0.000     29.09159    30.21863
+         10  |   21.52255   .1257807   171.11   0.000     21.27596    21.76915
+         11  |   25.68767    .297304    86.40   0.000     25.10481    26.27052
+         12  |   29.85278   .5024487    59.41   0.000     28.86773    30.83782
+         13  |   23.99657   .3127424    76.73   0.000     23.38344    24.60969
+         14  |    27.0235   .5077391    53.22   0.000     26.02809    28.01892
+         15  |   30.05044    .721953    41.62   0.000     28.63507    31.46582
+------------------------------------------------------------------------------
+
+. marginsplot
+
+Variables that uniquely identify margins: horsepower torque
+
+. 
+end of do-file
+
+```
+
+![](HW2 Stata Interaction plot.png)
