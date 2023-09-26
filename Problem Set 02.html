@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Problem Set 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Problem Set 02_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Problem Set 02_files/libs/quarto-html/quarto.js"></script>
+<script src="Problem Set 02_files/libs/quarto-html/popper.min.js"></script>
+<script src="Problem Set 02_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Problem Set 02_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Problem Set 02_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Problem Set 02_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Problem Set 02_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Problem Set 02_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Problem Set 02_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Problem Set 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>My Github link: <a href="https://github.com/andrewmengyueyan/Problem_Set_2.git" class="uri">https://github.com/andrewmengyueyan/Problem_Set_2.git</a></p>
+<p><strong>Problem 1</strong></p>
+<p>(a)</p>
+<p>Version 1 Loop</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>play_dice_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  money <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, x)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>x){</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    result[i] <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (result[i] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">||</span> result[i] <span class="sc">==</span> <span class="dv">3</span> <span class="sc">||</span> result[i] <span class="sc">==</span> <span class="dv">5</span>){</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        money[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (result[i] <span class="sc">==</span> <span class="dv">2</span> <span class="sc">||</span> result[i] <span class="sc">==</span> <span class="dv">4</span> <span class="sc">||</span> result[i] <span class="sc">==</span> <span class="dv">6</span>){</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        money[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">+</span> result[i]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(money))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Version 2 Vectorized function</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>play_dice_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, x, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  money <span class="ot">&lt;-</span> <span class="fu">numeric</span>(x)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  money[result <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">+</span> result[result <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  money[result <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(money))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Version 3 Table</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>play_dice_3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, x, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  roll_table <span class="ot">&lt;-</span> <span class="fu">table</span>(results)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  total_winnings <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (roll <span class="cf">in</span> <span class="fu">names</span>(roll_table)) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    frequency <span class="ot">&lt;-</span> roll_table[roll]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (roll <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"4"</span>, <span class="st">"6"</span>)) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      total_winnings <span class="ot">&lt;-</span> total_winnings <span class="sc">+</span> (<span class="fu">as.numeric</span>(roll) <span class="sc">*</span> frequency)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      total_winnings <span class="ot">&lt;-</span> total_winnings</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  total_cost <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> x</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  net_winnings <span class="ot">&lt;-</span> total_winnings <span class="sc">-</span> total_cost</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">as.numeric</span>(net_winnings))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Version 4 apply</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>play_dice_4 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, x, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  mechanism <span class="ot">&lt;-</span> <span class="cf">function</span>(results){</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    output <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(results)) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (results[i] <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      output[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      output[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">+</span> results[i]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(results, mechanism))))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>b.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_1</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_1</span>(<span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 110</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_2</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_2</span>(<span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -170</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_3</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_3</span>(<span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -116</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_4</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">play_dice_4</span>(<span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -28</code></pre>
+</div>
+</div>
+<p>They all can work.</p>
+<p>c.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>play_dice_function_list <span class="ot">&lt;-</span> <span class="fu">list</span>(play_dice_1, play_dice_2, play_dice_3, play_dice_4)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(play_dice_function_list[[i]](<span class="dv">3</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(play_dice_function_list[[i]](<span class="dv">3000</span>))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0
+[1] -96
+[1] 0
+[1] -96
+[1] 0
+[1] -96
+[1] 0
+[1] -96</code></pre>
+</div>
+</div>
+<p>To control by set.seed. They can give the same results.</p>
+<p>d.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="fu">play_dice_1</span>(<span class="dv">10</span>), <span class="fu">play_dice_2</span>(<span class="dv">10</span>), <span class="fu">play_dice_3</span>(<span class="dv">10</span>), <span class="fu">play_dice_4</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unit: microseconds
+            expr  min    lq   mean median    uq   max neval
+ play_dice_1(10) 30.5 32.20 36.053  33.50 36.90 121.3   100
+ play_dice_2(10)  6.7  7.40  8.883   8.20  9.15  34.2   100
+ play_dice_3(10) 54.1 60.15 70.283  64.15 72.85 204.3   100
+ play_dice_4(10) 15.0 16.05 17.649  16.85 18.00  34.2   100</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">microbenchmark</span>(<span class="fu">play_dice_1</span>(<span class="dv">1000</span>), <span class="fu">play_dice_2</span>(<span class="dv">1000</span>), <span class="fu">play_dice_3</span>(<span class="dv">1000</span>), <span class="fu">play_dice_4</span>(<span class="dv">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unit: microseconds
+              expr    min     lq     mean  median      uq    max neval
+ play_dice_1(1000) 3059.0 3537.9 3985.230 3651.15 4013.95 7465.8   100
+ play_dice_2(1000)   88.0   93.4  126.134  100.65  113.20 2124.4   100
+ play_dice_3(1000)  135.2  166.7  216.914  204.40  265.10  363.9   100
+ play_dice_4(1000) 1032.1 1066.7 1224.565 1108.55 1233.35 4105.1   100</code></pre>
+</div>
+</div>
+<p>It seems that no matter how many times of games, play_dice_2 is the most quick, maybe because of it use built-in R vectorized function.</p>
+<p>e. It is a fair game. We can calculate the expectation of earning after n independent trails.</p>
+<p>E[nX] = nE[X] = n(1/6)*[(-2+2)+(-2+4)+(-2+6)+(-2)+(-2)+(-2)] = 0</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>monte_carlo_simulation <span class="ot">&lt;-</span> <span class="cf">function</span>(num_simulations, num_rolls_per_simulation) {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">numeric</span>(num_simulations)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_simulations) {</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">play_dice_2</span>(num_rolls_per_simulation)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    results[i] <span class="ot">&lt;-</span> result</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  average_result <span class="ot">&lt;-</span> <span class="fu">mean</span>(results)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(average_result)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">monte_carlo_simulation</span>(<span class="dv">100000</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.00058</code></pre>
+</div>
+</div>
+<p>The monte carlo simulation indicates that the average_result is very close to 0, so it is a fair game.</p>
+<p><strong>Problem 2</strong></p>
+<p>a.</p>
+<p>Import the dataset and rename the columns</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>car <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"E:/study/Stat 506/cars.csv"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(car) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Height"</span>, <span class="st">"Length"</span>, <span class="st">"Width"</span>, <span class="st">"Driveline"</span>, <span class="st">"Engine Type"</span>, <span class="st">"Hybrid"</span>, <span class="st">"Forward Gears"</span>, <span class="st">"Transmission"</span>, <span class="st">"City_mpg"</span>, <span class="st">"Fuel Type"</span>, <span class="st">"Highway_mpg"</span>, <span class="st">"Classification"</span>, <span class="st">"ID"</span>, <span class="st">"Make"</span>, <span class="st">"Model Year"</span>, <span class="st">"Year"</span>, <span class="st">"Horsepower"</span>, <span class="st">"Torque"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>b.</p>
+<p>Restrict the data to cars whose Fuel Type is "Gasoline".</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>car_restricted <span class="ot">&lt;-</span> car[car<span class="sc">$</span><span class="st">`</span><span class="at">Fuel Type</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Gasoline"</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>c.</p>
+<p>Fit the multiple linear model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Highway_mpg <span class="sc">~</span> Horsepower <span class="sc">+</span> Torque <span class="sc">+</span> Length <span class="sc">+</span> Height <span class="sc">+</span> Width <span class="sc">+</span> <span class="fu">as.factor</span>(Year), <span class="at">data =</span> car_restricted)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Highway_mpg ~ Horsepower + Torque + Length + Height + 
+    Width + as.factor(Year), data = car_restricted)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-10.824  -2.550  -0.452   2.372 202.639 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)         32.2926630  0.7225982  44.690  &lt; 2e-16 ***
+Horsepower           0.0163556  0.0022772   7.182 7.96e-13 ***
+Torque              -0.0507425  0.0022030 -23.034  &lt; 2e-16 ***
+Length               0.0017290  0.0008836   1.957   0.0504 .  
+Height               0.0099079  0.0011267   8.794  &lt; 2e-16 ***
+Width               -0.0003343  0.0009045  -0.370   0.7117    
+as.factor(Year)2010 -0.4539681  0.6768246  -0.671   0.5024    
+as.factor(Year)2011  0.1711016  0.6757043   0.253   0.8001    
+as.factor(Year)2012  1.3029279  0.6810076   1.913   0.0558 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.602 on 4582 degrees of freedom
+Multiple R-squared:  0.4192,    Adjusted R-squared:  0.4182 
+F-statistic: 413.3 on 8 and 4582 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>In this model, the coefficient for horsepower is 0.0163556. This coefficient tells us that when controlling for all other variables (torque, vehicle size, year, etc.), each additional unit of horsepower increases highway miles per gallon (Highway_mpg) by an average of 0.0163556. Therefore, horsepower has a positive correlation with highway mpg, and increasing horsepower results in better fuel efficiency.</p>
+<p>The p-value of the coefficient of horsepower is very small (7.96e-13), much smaller than the usual significance level. This means we can say that the effect of horsepower on highway mpg is significant, when controlling for other variables.</p>
+<p>d.</p>
+<p>Add the interaction term.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit_new <span class="ot">&lt;-</span> <span class="fu">lm</span>(Highway_mpg <span class="sc">~</span> Horsepower <span class="sc">+</span> Torque <span class="sc">+</span> Length <span class="sc">+</span> Height <span class="sc">+</span> Width <span class="sc">+</span> <span class="fu">as.factor</span>(Year) <span class="sc">+</span> Horsepower<span class="sc">:</span>Torque, <span class="at">data =</span> car_restricted)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Highway_mpg ~ Horsepower + Torque + Length + Height + 
+    Width + as.factor(Year) + Horsepower:Torque, data = car_restricted)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-11.109  -2.313  -0.258   2.062 203.540 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          4.219e+01  7.930e-01  53.199  &lt; 2e-16 ***
+Horsepower          -1.666e-02  2.539e-03  -6.563 5.84e-11 ***
+Torque              -8.606e-02  2.533e-03 -33.972  &lt; 2e-16 ***
+Length               1.777e-03  8.318e-04   2.136   0.0327 *  
+Height               6.560e-03  1.070e-03   6.133 9.32e-10 ***
+Width               -1.169e-03  8.521e-04  -1.372   0.1700    
+as.factor(Year)2010 -5.628e-01  6.372e-01  -0.883   0.3771    
+as.factor(Year)2011  7.254e-02  6.361e-01   0.114   0.9092    
+as.factor(Year)2012  1.197e+00  6.411e-01   1.867   0.0619 .  
+Horsepower:Torque    1.124e-04  4.628e-06  24.276  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.333 on 4581 degrees of freedom
+Multiple R-squared:  0.4854,    Adjusted R-squared:  0.4844 
+F-statistic: 480.1 on 9 and 4581 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>plot the interaction plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(interactions)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>torque_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(car_restricted<span class="sc">$</span>Torque)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>torque_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(car_restricted<span class="sc">$</span>Torque)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>l1 <span class="ot">&lt;-</span> <span class="fu">round</span>(torque_mean <span class="sc">+</span> torque_sd)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>l2 <span class="ot">&lt;-</span> <span class="fu">round</span>(torque_mean)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>l3 <span class="ot">&lt;-</span> <span class="fu">round</span>(torque_mean <span class="sc">-</span> torque_sd)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>legend_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(l1, l2, l3)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">interact_plot</span>(fit_new, <span class="at">pred =</span> Horsepower, <span class="at">modx =</span> Torque, <span class="at">data =</span> car_restricted, <span class="at">at =</span> <span class="fu">list</span>(<span class="at">Year =</span> <span class="dv">2010</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Problem-Set-02_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>e. Calculate the <span class="math display">\[\hat\beta\]</span> manually.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Highway_mpg <span class="sc">~</span> Horsepower <span class="sc">*</span> Torque <span class="sc">+</span> Length <span class="sc">+</span> Height <span class="sc">+</span> Width <span class="sc">+</span> <span class="fu">as.factor</span>(Year), <span class="at">data =</span> car_restricted)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> car_restricted<span class="sc">$</span>Highway_mpg</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Y</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>beta_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                             [,1]
+(Intercept)         42.1879478687
+Horsepower          -0.0166633227
+Torque              -0.0860592704
+Length               0.0017767232
+Height               0.0065603903
+Width               -0.0011694485
+as.factor(Year)2010 -0.5627857770
+as.factor(Year)2011  0.0725356431
+as.factor(Year)2012  1.1970329986
+Horsepower:Torque    0.0001123567</code></pre>
+</div>
+</div>
+<p>The result of matrix method is the same as the lm function in d.</p>
+<p><strong>Problem 3</strong></p>
+<p>These are pure codes</p>
+<pre><code>import delimited "E:\study\Stat 506\cars.csv", clear delimiter(",") // import dataset into Stata
+
+* Rename columns
+rename dimensionsheight height
+rename dimensionslength length
+rename dimensionswidth width
+rename engineinformationdriveline driveline
+rename engineinformationenginetype enginetype
+rename engineinformationhybrid hybrid
+rename engineinformationnumberofforward forward
+rename engineinformationtransmission transmission
+rename fuelinformationcitympg citympg
+rename fuelinformationfueltype fueltype
+rename fuelinformationhighwaympg highwaympg
+rename identificationclassification classification
+rename identificationid id
+rename identificationmake make
+rename identificationmodelyear modelyear
+rename identificationyear year
+rename engineinformationenginestatistic horsepower
+rename v18 torque
+
+* restrict the dataset
+keep if fueltype == "Gasoline"
+
+* regression
+regress highwaympg horsepower torque length height width i.year
+
+* add the interaction
+regress highwaympg c.horsepower##c.torque length height width i.year
+
+* plot the interaction plot
+summarize torque
+return list
+global tora = round(r(mean) + r(sd), 0.1)
+global tor = round(r(mean), 0.1)
+global torb = round(r(mean) - r(sd), 0.1)
+margins, at(horsepower=(100(100)500) torque=($tora $tor $torb))
+marginsplot</code></pre>
+<p>These are my codes combined with outputs</p>
+<pre><code>. do "C:\Users\mengy\AppData\Local\Temp\STD22c8_000000.tmp"
+
+. import delimited "E:\study\Stat 506\cars.csv", clear delimiter(",") // import 
+&gt; dataset into Stata
+(encoding automatically selected: ISO-8859-1)
+(18 vars, 5,076 obs)
+
+. 
+. * Rename columns
+. rename dimensionsheight height
+
+. rename dimensionslength length
+
+. rename dimensionswidth width
+
+. rename engineinformationdriveline driveline
+
+. rename engineinformationenginetype enginetype
+
+. rename engineinformationhybrid hybrid
+
+. rename engineinformationnumberofforward forward
+
+. rename engineinformationtransmission transmission
+
+. rename fuelinformationcitympg citympg
+
+. rename fuelinformationfueltype fueltype
+
+. rename fuelinformationhighwaympg highwaympg
+
+. rename identificationclassification classification
+
+. rename identificationid id
+
+. rename identificationmake make
+
+. rename identificationmodelyear modelyear
+
+. rename identificationyear year
+
+. rename engineinformationenginestatistic horsepower
+
+. rename v18 torque
+
+. 
+. * restrict the dataset
+. keep if fueltype == "Gasoline"
+(485 observations deleted)
+
+. 
+. * regression
+. regress highwaympg horsepower torque length height width i.year
+
+      Source |       SS           df       MS      Number of obs   =     4,591
+-------------+----------------------------------   F(8, 4582)      =    413.35
+       Model |  70043.6695         8  8755.45869   Prob &gt; F        =    0.0000
+    Residual |   97055.298     4,582  21.1818634   R-squared       =    0.4192
+-------------+----------------------------------   Adj R-squared   =    0.4182
+       Total |  167098.968     4,590  36.4050038   Root MSE        =    4.6024
+
+------------------------------------------------------------------------------
+  highwaympg | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  horsepower |   .0163556   .0022772     7.18   0.000     .0118913      .02082
+      torque |  -.0507425    .002203   -23.03   0.000    -.0550614   -.0464236
+      length |    .001729   .0008836     1.96   0.050    -3.36e-06    .0034613
+      height |   .0099079   .0011267     8.79   0.000      .007699    .0121168
+       width |  -.0003343   .0009045    -0.37   0.712    -.0021075    .0014388
+             |
+        year |
+       2010  |  -.4539681   .6768246    -0.67   0.502     -1.78087    .8729342
+       2011  |   .1711016   .6757043     0.25   0.800    -1.153604    1.495808
+       2012  |   1.302928   .6810076     1.91   0.056    -.0321751    2.638031
+             |
+       _cons |   32.29266   .7225982    44.69   0.000     30.87602     33.7093
+------------------------------------------------------------------------------
+
+. 
+. * add the interaction
+. regress highwaympg c.horsepower##c.torque length height width i.year
+
+      Source |       SS           df       MS      Number of obs   =     4,591
+-------------+----------------------------------   F(9, 4581)      =    480.07
+       Model |  81105.8715         9  9011.76351   Prob &gt; F        =    0.0000
+    Residual |   85993.096     4,581  18.7716865   R-squared       =    0.4854
+-------------+----------------------------------   Adj R-squared   =    0.4844
+       Total |  167098.968     4,590  36.4050038   Root MSE        =    4.3326
+
+-------------------------------------------------------------------------------
+   highwaympg | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+   horsepower |  -.0166633   .0025388    -6.56   0.000    -.0216406    -.011686
+       torque |  -.0860593   .0025333   -33.97   0.000    -.0910257   -.0810928
+              |
+ c.horsepower#|
+     c.torque |   .0001124   4.63e-06    24.28   0.000     .0001033    .0001214
+              |
+       length |   .0017767   .0008318     2.14   0.033     .0001459    .0034075
+       height |   .0065604   .0010696     6.13   0.000     .0044634    .0086573
+        width |  -.0011694   .0008521    -1.37   0.170      -.00284    .0005011
+              |
+         year |
+        2010  |  -.5627858   .6371716    -0.88   0.377    -1.811949    .6863777
+        2011  |   .0725356   .6361142     0.11   0.909    -1.174555    1.319626
+        2012  |   1.197033   .6411085     1.87   0.062    -.0598488    2.453915
+              |
+        _cons |   42.18795   .7930274    53.20   0.000     40.63323    43.74266
+-------------------------------------------------------------------------------
+
+. 
+. * plot the interaction plot
+. summarize torque
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      torque |      4,591    267.2196    101.3269         98        774
+
+. return list
+
+scalars:
+                  r(N) =  4591
+              r(sum_w) =  4591
+               r(mean) =  267.2195600087127
+                r(Var) =  10267.13261078676
+                 r(sd) =  101.3268602631442
+                r(min) =  98
+                r(max) =  774
+                r(sum) =  1226805
+
+. global tora = round(r(mean) + r(sd), 0.1)
+
+. global tor = round(r(mean), 0.1)
+
+. global torb = round(r(mean) - r(sd), 0.1)
+
+. margins, at(horsepower=(100(100)500) torque=($tora $tor $torb))
+
+Predictive margins                                       Number of obs = 4,591
+Model VCE: OLS
+
+Expression: Linear prediction, predict()
+1._at:  horsepower =   100
+        torque     = 368.5
+2._at:  horsepower =   100
+        torque     = 267.2
+3._at:  horsepower =   100
+        torque     = 165.9
+4._at:  horsepower =   200
+        torque     = 368.5
+5._at:  horsepower =   200
+        torque     = 267.2
+6._at:  horsepower =   200
+        torque     = 165.9
+7._at:  horsepower =   300
+        torque     = 368.5
+8._at:  horsepower =   300
+        torque     = 267.2
+9._at:  horsepower =   300
+        torque     = 165.9
+10._at: horsepower =   400
+        torque     = 368.5
+11._at: horsepower =   400
+        torque     = 267.2
+12._at: horsepower =   400
+        torque     = 165.9
+13._at: horsepower =   500
+        torque     = 368.5
+14._at: horsepower =   500
+        torque     = 267.2
+15._at: horsepower =   500
+        torque     = 165.9
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   14.10052   .5793414    24.34   0.000     12.96473    15.23631
+          2  |   21.68015   .3653114    59.35   0.000     20.96396    22.39634
+          3  |   29.25978    .199333   146.79   0.000     28.86899    29.65057
+          4  |   16.57453   .3670628    45.15   0.000     15.85491    17.29415
+          5  |   23.01599   .1619147   142.15   0.000     22.69856    23.33342
+          6  |   29.45745   .1082287   272.18   0.000     29.24527    29.66963
+          7  |   19.04854   .1677196   113.57   0.000     18.71973    19.37735
+          8  |   24.35183   .1058085   230.15   0.000     24.14439    24.55926
+          9  |   29.65511   .2874378   103.17   0.000     29.09159    30.21863
+         10  |   21.52255   .1257807   171.11   0.000     21.27596    21.76915
+         11  |   25.68767    .297304    86.40   0.000     25.10481    26.27052
+         12  |   29.85278   .5024487    59.41   0.000     28.86773    30.83782
+         13  |   23.99657   .3127424    76.73   0.000     23.38344    24.60969
+         14  |    27.0235   .5077391    53.22   0.000     26.02809    28.01892
+         15  |   30.05044    .721953    41.62   0.000     28.63507    31.46582
+------------------------------------------------------------------------------
+
+. marginsplot
+
+Variables that uniquely identify margins: horsepower torque
+
+. 
+end of do-file
+</code></pre>
+<p><img src="HW2%20Stata%20Interaction%20plot.png" class="img-fluid"></p>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
